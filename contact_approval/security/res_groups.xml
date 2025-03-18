@@ -1,0 +1,10 @@
+<odoo>
+    <!-- Group: Estate Admin -->
+    <record id="ca_manager" model="res.groups">
+        <field name="name">Contact Approval Manager</field>
+    </record>
+
+    <record id="ca_user" model="res.groups">
+        <field name="name">Contact Approval User</field>
+    </record>
+</odoo>

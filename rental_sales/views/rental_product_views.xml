@@ -1,0 +1,59 @@
+<odoo>
+
+<record id="view_sale_order_reserved_tree" model="ir.ui.view">
+        <field name="name">Sale Order Reserved</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Reserved Sale Orders">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="rental_start_date"/>
+                <field name="rental_return_date"/>
+                <field name="duration_days"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+                <field
+                        name="status_rental"
+                        decoration-success="status_rental == 'reserved'"
+                        decoration-primary="status_rental == 'returned'"
+                        decoration-danger="status_rental == 'cancelled'"
+                        decoration-muted="status_rental == 'draft'"
+                        widget="badge"
+                        optional="show"
+                />
+            </tree>
+        </field>
+    </record>
+
+     <record id="view_rental_product" model="ir.ui.view">
+        <field name="name">product.rental</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_reserved_orders" type="object"
+                    icon="fa-sitemap" class="oe_stat_button">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value d-flex gap-1">
+                            <field name="count_rent" widget="statinfo" nolabel="1" class="oe_inline"/>
+                            <field name="uom_name" class="oe_inline"/>
+                        </span>
+                        <span class="o_stat_text">In Rental</span>
+                    </div>
+                </button>
+            </div>
+            <xpath expr="//div[@name='options']" position="inside">
+                    <span class="d-inline-flex">
+                            <field name="is_rent"/>
+                            <label for="is_rent" widget="boolean" string="Can be Rented"/>
+                    </span>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_rental_product" model="ir.actions.act_window">
+        <field name="name">Rental Product</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

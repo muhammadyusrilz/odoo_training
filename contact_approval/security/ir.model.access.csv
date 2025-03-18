@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_manager_contact_approval,manager access,model_res_partner,contact_approval.ca_manager,1,1,1,1
+access_user_contact_approval,user access,model_res_partner,contact_approval.ca_user,1,0,0,0

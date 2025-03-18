@@ -1,0 +1,52 @@
+<odoo>
+    <record id="action_contact_approval" model="ir.actions.act_window">
+        <field name="name">Contact Approval Form</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="contact_approval_form_view" model="ir.ui.view">
+        <field name="name">contact.approval.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_approve" invisible="state in('approve', 'cancel')" string="Approve" type="object" class="btn btn-success mr-3" groups="contact_approval.ca_manager"/>
+                    <button name="action_cancel" invisible="state in('approve', 'cancel')" string="Cancel" type="object" class="btn btn-danger ml-3" groups="contact_approval.ca_manager"/>
+                    <button name="action_reset" invisible="state in('draft')" string="Reset" type="object" class="btn-secondary" groups="contact_approval.ca_manager"/>
+                    <field name="state" widget="statusbar" options="{'clickable': False}" readonly="state in('approve', 'cancel')"/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                    <field name="approver_id" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+    <!-- Inherit View Quotation (Sales) -->
+    <record id="view_order_form_inherit_contact_approval"   model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.contact.approval</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Tambahkan filter pada field customer -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('state', '=', 'approve')]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit View Request for Quotation (Purchase) -->
+    <record id="view_purchase_order_form_inherit_contact_approval" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.contact.approval</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Tambahkan filter pada field vendor -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('state', '=', 'approve')]</attribute>
+            </xpath>
+        </field>
+    </record>
+    <menuitem name="Contact Approval" id="root_level_main" action="action_contact_approval" />
+</odoo>
